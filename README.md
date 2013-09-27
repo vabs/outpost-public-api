@@ -1,3 +1,3 @@
 OutpostPublicAPI
 ================
-(ReadTheDocs)['http://docs.outpost.travel']
+[ReadTheDocs](http://docs.outpost.travel)
