@@ -1,2 +1,2 @@
-outpost-public-api
-==================
+OutpostPublicAPI
+================
