@@ -232,7 +232,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'OutpostAPI', u'Outpost API Documentation',
-   u'Trevor Starick', 'OutpostAPI', 'One line description of project.',
+   u'Outpost Travel Inc.', 'OutpostAPI', 'One line description of project.',
    'Miscellaneous'),
 ]
 
