@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Outpost API'
-copyright = u'2013, Outpost Travel Inc.'
+copyright = u'2013, Outpost Travel Inc'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
