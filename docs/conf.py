@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Outpost API'
-copyright = u'2013, Trevor Starick'
+copyright = u'2013, Outpost Travel Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -188,7 +188,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'OutpostAPI.tex', u'Outpost API Documentation',
-   u'Trevor Starick', 'manual'),
+   u'Outpost Travel Inc.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -218,7 +218,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'outpostapi', u'Outpost API Documentation',
-     [u'Trevor Starick'], 1)
+     [u'Outpost Travel Inc.'], 1)
 ]
 
 # If true, show URL addresses after external links.
