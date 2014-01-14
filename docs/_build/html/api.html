@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,14 +6,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>GET / &mdash; Outpost API 1 documentation</title>
+    <title>GET / &mdash; OutpostTravel API 1 documentation</title>
     
     <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -24,8 +23,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Outpost API 1 documentation" href="index.html" />
-    <link rel="prev" title="Outpost.Travel’s Public API" href="index.html" />
+    <link rel="top" title="OutpostTravel API 1 documentation" href="index.html" />
+    <link rel="prev" title="OutpostTravel’s Public API" href="index.html" />
    
   
   <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
@@ -40,9 +39,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="index.html" title="Outpost.Travel’s Public API"
+          <a href="index.html" title="OutpostTravel’s Public API"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Outpost API 1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">OutpostTravel API 1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,192 +52,143 @@
             
   <div class="section" id="get">
 <h1>GET <em>/</em><a class="headerlink" href="#get" title="Permalink to this headline">¶</a></h1>
-<p>The standard GET of <a class="reference external" href="http://api.outpost.travel">api.outpost.travel</a> will return a list of links to our currently avaliable collections. Following these links will result in a list of items. More information on these can be found below in the <cite>/[collection]/</cite> request.</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="go">Request:</span>
-<span class="gp">$</span> curl -i http://api.outpost.travel/
-</pre></div>
-</div>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Response</span><span class="o">:</span>
-<span class="p">{</span>
-  <span class="nx">_links</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">child</span><span class="o">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="nx">href</span><span class="o">:</span> <span class="s2">&quot;api.outpost.travel/placeRentals/&quot;</span><span class="p">,</span>
-        <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;placeRentals&quot;</span>
-      <span class="p">},</span>
-      <span class="p">{</span>
-        <span class="nx">href</span><span class="o">:</span> <span class="s2">&quot;api.outpost.travel/rideShares/&quot;</span><span class="p">,</span>
-        <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;rideShares&quot;</span>
-      <span class="p">},</span>
-      <span class="p">{</span>
-        <span class="nx">href</span><span class="o">:</span> <span class="s2">&quot;api.outpost.travel/experiences/&quot;</span><span class="p">,</span>
-        <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;experiences&quot;</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+<p>Currently a GET request of the root page will redirect the user to this documentation. It is planned in the future for the index page to contain an index of all the links one step down from index (/count,/places,/experiences,...)</p>
 </div>
 <div class="section" id="get-collection">
 <h1>GET <em>/[collection]/</em><a class="headerlink" href="#get-collection" title="Permalink to this headline">¶</a></h1>
-<p>This GET request requires on of three possible collections. Possible collections are <cite>placeRentals</cite>, <cite>rideShares</cite> and <cite>experiences</cite>. The response will contain two objects, an <cite>_items</cite> array and a <cite>_links</cite> list. The <cite>_items</cite> array contains 25 items which are either places for the <cite>placeRentals</cite> collection, rides for <cite>rideShares</cite> and experiences for <cite>experiences</cite>. The schema is identical for all items in a collection and are quite similar between collections. The <cite>_links</cite> list are to be used for navigation or pseud-pagenation although that is included.</p>
+<p>This GET request requires on of three possible collections. Possible collections are <cite>places</cite>, <cite>rideshares</cite> and <cite>experiences</cite>. The response will contain five objects, the current page number, the total number of pages, the limit or results per page, the total number of results and an <cite>items</cite> array. The <cite>items</cite> array contains 20 items which are either places for the <cite>places</cite> collection, rides for <cite>rideshares</cite> and experiences for <cite>experiences</cite>. The schema is identical for all items in a collection and are quite similar between collections.</p>
 <p><strong>Options:</strong></p>
 <blockquote>
-<div><p>Pagination:</p>
+<div><p><strong>Pagination:</strong></p>
 <dl class="docutils">
 <dt><cite>page</cite>:</dt>
-<dd><cite>page</cite> is to be used for pagenation as expected. The correct syntax for <cite>page</cite> is <cite>?page=pageNumber</cite>. If the page requested is greater than those avaliable (found in the <cite>_links</cite> list) the response will include an empty <cite>_items</cite> array.</dd>
-<dt><cite>max_results</cite>:</dt>
-<dd><cite>max_results</cite> is to be used with or without pagenation to limit the number or results shown in the <cite>_items</cite> array. The correct syntax for <cite>max_results</cite> is <cite>?max_results=numResults</cite>. The maximum number of results is currently set at 50 results per page and the minimum is 1. If the number is greater or lower than said limits, the page will return 25 results as the default.</dd>
+<dd><cite>page</cite> is to be used for pagenation as expected. The correct syntax for <cite>page</cite> is <cite>?page=pageNumber</cite>. If the page requested is greater than those avaliable the response will include an empty <cite>items</cite> array.</dd>
+<dt><cite>limit</cite>:</dt>
+<dd><cite>limit</cite> is to be used with or without pagenation to limit the number or results shown in the <cite>items</cite> array. The correct syntax for <cite>max_results</cite> is <cite>?max_results=numResults</cite>. The maximum number of results is currently set at 50 results per page and the minimum is 1. If the number is greater or lower than said limits, the page will return 20 results as the default.</dd>
 </dl>
-<p>Location based queries:</p>
+<p><strong>Location based queries:</strong></p>
 <dl class="docutils">
-<dt><cite>city</cite>:</dt>
-<dd><cite>city</cite> can be used to query results that only are for a certain city. <cite>lat</cite> and <cite>lng</cite> will provider a query of the area which may include other municipalites. The proper syntax is <cite>?city=city</cite>. You can then use <cite>sort</cite> (explained later), to sort by <cite>lat</cite> and <cite>lng</cite> or any other key.</dd>
-<dt><cite>lat</cite> and <cite>lng</cite>:</dt>
-<dd><cite>lat</cite> and <cite>lng</cite> are similar to <cite>city</cite> but query a specific <cite>lat</cite> and <cite>lng</cite>. This will then return all the listings within a radius of a 1-5 kilometers. In the future there will be a option to set the radius via <cite>?radius=1</cite> for 1 kilometer. The proper syntax for <cite>lat</cite> and <cite>lng</cite> is <cite>?lat=lat&amp;lng=lng</cite>.</dd>
+<dt><cite>dest</cite>:</dt>
+<dd><cite>city</cite> can be used to query results that only are for a certain city. <cite>latLng</cite> will provider a query of the area which may include other municipalites. The proper syntax is <cite>?dest=city</cite>. You can then use <cite>sort</cite> (explained later), to sort by <cite>latLng</cite> or any other key.</dd>
+<dt><cite>latLng</cite>:</dt>
+<dd><cite>latLng</cite> is similar to <cite>dest</cite> but query a specific latitude and longitude. This will then return all the listings within a radius of a 1-15 kilometers. In the future there will be a option to set the radius via <cite>?radius=1000</cite> for 1 kilometer. The proper syntax for <cite>latLng</cite> is <cite>?latLng=latitude,longitude</cite>.</dd>
 </dl>
-</div></blockquote>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>The following options are subject to change and are not to be used in a production application. They are currently for testing purposes only and will be implemented in the future as full-featured options*</p>
-<p>Sorting:</p>
-<dl class="last docutils">
+<p><strong>Sorting:</strong></p>
+<dl class="docutils">
 <dt><cite>sort</cite>:</dt>
 <dd><cite>sort</cite> can be used to sort specific items in ascending order. The syntax is <cite>?sort=itemKey</cite>. Item keys are to be used such as price, city or provider.</dd>
 <dt><cite>sortMethod</cite>:</dt>
-<dd><cite>sortMethod</cite> is to be used with <cite>sort</cite> to display the results in an ascending or descending order based on the value given. The syntax is <cite>?sortMethod=method</cite> where the method is either <cite>ascending</cite> or <cite>descending</cite>.</dd>
+<dd><cite>sortMethod</cite> is to be used with <cite>sort</cite> to display the results in an ascending or descending order based on the value given. The syntax is <cite>?sortMethod=method</cite> where the method is either <cite>1</cite> for ascending or <cite>-1</cite> for descending.</dd>
 </dl>
-</div>
-<p>All the previous options can be used for both the collections and collection-id GET requests.</p>
+<p><strong>Filtering:</strong></p>
+<dl class="docutils">
+<dt><cite>priceMin</cite> and <cite>priceMax</cite>:</dt>
+<dd><cite>priceMin</cite> and <cite>priceMax</cite> can be using in conjunction or seperatly to filter out items who&#8217;s price is outside of the range given. The lower limit is 0 and there is now upper limit. The syntax is <cite>?priceMin=0&amp;priceMax=1200</cite>.</dd>
+<dt><cite>provider</cite>:</dt>
+<dd><cite>provider</cite> can be used to filter out providers. The syntax is <cite>?provider=nflats,airbnb,roomorama</cite> to only find listings with those providers.</dd>
+<dt><cite>guestMin</cite> and <cite>guestMax</cite>:</dt>
+<dd><cite>guestMin</cite> and <cite>guestMax</cite> are to be used the same way as <cite>priceMin</cite> and <cite>priceMax</cite>.</dd>
+<dt><cite>bedMin</cite>:</dt>
+<dd><cite>bedMin</cite> is to filter by number of beds. The sytax is <cite>?bedMin=1</cite>.</dd>
+<dt><cite>bedroomMin</cite>:</dt>
+<dd><cite>bedroomMin</cite> is the same as <cite>bedMin</cite> but is for bedrooms.</dd>
+<dt><cite>washroomMin</cite>:</dt>
+<dd><cite>washroomMin</cite> is the same as <cite>bedMin</cite> and <cite>bedroomMin</cite> but is for washrooms.</dd>
+</dl>
+</div></blockquote>
+<p>All the previous options can be used for both the collections and collection/city GET requests.</p>
 <div class="highlight-console"><div class="highlight"><pre><span class="go">Request:</span>
-<span class="gp">$</span> curl -i http://api.outpost.travel/placeRentals/
+<span class="gp">$</span> curl -i http://api.outpost.travel/places/
 </pre></div>
 </div>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Response</span><span class="o">:</span>
 <span class="p">{</span>
-  <span class="nx">_items</span><span class="o">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="nx">origin</span><span class="o">:</span> <span class="s2">&quot;La Bordeta, Barcelona, Spain&quot;</span><span class="p">,</span>
-      <span class="nx">roomType</span><span class="o">:</span> <span class="s2">&quot;shared_room&quot;</span><span class="p">,</span>
-      <span class="nx">logoLV</span><span class="o">:</span> <span class="s2">&quot;img/airbnb_lv.png&quot;</span><span class="p">,</span>
-      <span class="nx">hostName</span><span class="o">:</span> <span class="s2">&quot;Isa&quot;</span><span class="p">,</span>
-      <span class="nx">pid</span><span class="o">:</span> <span class="s2">&quot;145521&quot;</span><span class="p">,</span>
-      <span class="nx">currency</span><span class="o">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-      <span class="nx">rate</span><span class="o">:</span> <span class="mi">33</span><span class="p">,</span>
-      <span class="nx">captions</span><span class="o">:</span> <span class="p">[</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span>
-      <span class="p">],</span>
-      <span class="nx">propertyType</span><span class="o">:</span> <span class="s2">&quot;apartment&quot;</span><span class="p">,</span>
-      <span class="nx">logoSV</span><span class="o">:</span> <span class="s2">&quot;img/airbnb_sv.png&quot;</span><span class="p">,</span>
-      <span class="nx">logoDesc</span><span class="o">:</span> <span class="s2">&quot;Discover amazing, unique accommodations in 192 countries. With more than 10 million nights booked worldwide, Airbnb is the world leader in travel rentals.&quot;</span><span class="p">,</span>
-      <span class="nx">city</span><span class="o">:</span> <span class="s2">&quot;barcelona&quot;</span><span class="p">,</span>
-      <span class="nx">houseRules</span><span class="o">:</span> <span class="s2">&quot;Respeto hacia las personas que comparten el piso y con el mobiliario en general.&quot;</span><span class="p">,</span>
-      <span class="nx">fullProvider</span><span class="o">:</span> <span class="s2">&quot;Airbnb&quot;</span><span class="p">,</span>
-      <span class="nx">mid</span><span class="o">:</span> <span class="s2">&quot;air145521&quot;</span><span class="p">,</span>
-      <span class="nx">occupancy</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
-      <span class="nx">etag</span><span class="o">:</span> <span class="s2">&quot;e1931f7e487a1612d8e10805e2b67ffa37a31674&quot;</span><span class="p">,</span>
-      <span class="nx">amenities</span><span class="o">:</span> <span class="p">[</span>
-        <span class="s2">&quot;TV&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Internet&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Wireless Internet&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Air Conditioning&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Elevator in Building&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Washer&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Dryer&quot;</span>
-      <span class="p">],</span>
-      <span class="nx">provider</span><span class="o">:</span> <span class="s2">&quot;airbnb&quot;</span><span class="p">,</span>
-      <span class="nx">_links</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">self</span><span class="o">:</span> <span class="p">{</span>
-          <span class="nx">href</span><span class="o">:</span> <span class="s2">&quot;api.outpost.travel/placeRentals/5233838bdb97421b95ab96b6/&quot;</span><span class="p">,</span>
-          <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;place&quot;</span>
-        <span class="p">}</span>
+  <span class="nx">page</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nx">totalPages</span><span class="o">:</span> <span class="mi">39501</span><span class="p">,</span>
+  <span class="nx">resultsPerPage</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="nx">totalResults</span><span class="o">:</span> <span class="mi">790017</span><span class="p">,</span>
+  <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nx">pid</span><span class="o">:</span> <span class="s2">&quot;bca19413&quot;</span><span class="p">,</span>
+    <span class="nx">bedCount</span><span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="nx">unavailable</span><span class="o">:</span> <span class="p">[</span> <span class="p">],</span>
+    <span class="nx">occupancy</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nx">priority</span><span class="o">:</span> <span class="mf">0.22705</span><span class="p">,</span>
+    <span class="nx">amenities</span><span class="o">:</span> <span class="p">[</span> <span class="p">],</span>
+    <span class="nx">location</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span>
+      <span class="nx">coordinates</span><span class="o">:</span> <span class="p">[</span>
+        <span class="o">-</span><span class="mf">1.1737357</span><span class="p">,</span>
+        <span class="mf">44.6560411</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nx">provider</span><span class="o">:</span> <span class="s2">&quot;bedycasa&quot;</span><span class="p">,</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">roomType</span><span class="o">:</span> <span class="s2">&quot;entire_place&quot;</span><span class="p">,</span>
+      <span class="nx">propType</span><span class="o">:</span> <span class="s2">&quot;apartment&quot;</span>
+    <span class="p">},</span>
+    <span class="nx">latLng</span><span class="o">:</span> <span class="p">[</span>
+      <span class="mf">44.6560411</span><span class="p">,</span>
+      <span class="o">-</span><span class="mf">1.1737357</span>
+    <span class="p">],</span>
+    <span class="nx">description</span><span class="o">:</span> <span class="s2">&quot;Lodging, in Arcachon at Marie-Pierre&#39;s, from 45 EUR per night per one person ! Discover Arcachon, and enjoy the benefits of homestay: practical advice, friendliness and low prices. This is a/an Â« Lodging Â» with a capacity of 2 person(s).&quot;</span><span class="p">,</span>
+    <span class="nx">price</span><span class="o">:</span> <span class="mi">62</span><span class="p">,</span>
+    <span class="nx">photos</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;http://www.bedycasa.com/media/cache/room_gallery_bedycasa/uploads/r/19413/511b6b61aecdf.jpg&quot;</span><span class="p">,</span>
+        <span class="nx">caption</span><span class="o">:</span> <span class="s2">&quot;&quot;</span>
       <span class="p">},</span>
-      <span class="nx">thumbnail</span><span class="o">:</span> <span class="s2">&quot;https://a2.muscache.com/pictures/22319501/medium.jpg&quot;</span><span class="p">,</span>
-      <span class="nx">updated</span><span class="o">:</span> <span class="s2">&quot;Thu, 01 Jan 1970 00:00:00 GMT&quot;</span><span class="p">,</span>
-      <span class="nx">description</span><span class="o">:</span> <span class="s2">&quot;A few minutes walking from Plaza Spain. Well connected. Less than 50m to metro and bus stop. Rooms in share and familiar flat in safe area, near the City of Justice. Quiet and clean flat to short stays...There are many restaurants, shopings centers and supermarkets... Optional: Transportation to/from airport.&quot;</span><span class="p">,</span>
-      <span class="nx">latLng</span><span class="o">:</span> <span class="p">[</span>
-        <span class="mf">41.36731735672994</span><span class="p">,</span>
-        <span class="mf">2.134957981066059</span>
-      <span class="p">],</span>
-      <span class="nx">ratePer</span><span class="o">:</span> <span class="s2">&quot;per night&quot;</span><span class="p">,</span>
-      <span class="nx">microProvider</span><span class="o">:</span> <span class="s2">&quot;air&quot;</span><span class="p">,</span>
-      <span class="nx">photos</span><span class="o">:</span> <span class="p">[</span>
-        <span class="s2">&quot;https://a2.muscache.com/pictures/22319501/large.jpg&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://a1.muscache.com/pictures/14770187/large.jpg&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://a2.muscache.com/pictures/14770604/large.jpg&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://a2.muscache.com/pictures/14770222/large.jpg&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://a1.muscache.com/pictures/14770575/large.jpg&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://a0.muscache.com/pictures/22319512/large.jpg&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://a0.muscache.com/pictures/22319538/large.jpg&quot;</span>
-      <span class="p">],</span>
-      <span class="nx">link</span><span class="o">:</span> <span class="s2">&quot;http://airbnb.com/rooms/145521&quot;</span><span class="p">,</span>
-      <span class="nx">responseTime</span><span class="o">:</span> <span class="s2">&quot;N/A&quot;</span><span class="p">,</span>
-      <span class="nx">address</span><span class="o">:</span> <span class="s2">&quot;Carrer de Badal, Barcelona, Cataluña 08014, Spain&quot;</span><span class="p">,</span>
-      <span class="nx">roomTypeAlias</span><span class="o">:</span> <span class="s2">&quot;Shared room&quot;</span><span class="p">,</span>
-      <span class="nx">propertyTypeAlias</span><span class="o">:</span> <span class="s2">&quot;Apartment&quot;</span><span class="p">,</span>
-      <span class="nx">created</span><span class="o">:</span> <span class="s2">&quot;Thu, 01 Jan 1970 00:00:00 GMT&quot;</span><span class="p">,</span>
-      <span class="nx">smallInfo</span><span class="o">:</span> <span class="p">[</span>
-        <span class="p">[</span>
-          <span class="s2">&quot;Accommodates&quot;</span><span class="p">,</span>
-          <span class="mi">2</span>
-        <span class="p">],</span>
-        <span class="p">[</span>
-          <span class="s2">&quot;Bathrooms&quot;</span><span class="p">,</span>
-          <span class="mi">1</span>
-        <span class="p">],</span>
-        <span class="p">[</span>
-          <span class="s2">&quot;Bedrooms&quot;</span><span class="p">,</span>
-          <span class="mi">1</span>
-        <span class="p">],</span>
-        <span class="p">[</span>
-          <span class="s2">&quot;Number of Beds:&quot;</span><span class="p">,</span>
-          <span class="mi">2</span>
-        <span class="p">]</span>
-      <span class="p">],</span>
-      <span class="nx">bedCount</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
-      <span class="nx">currencySign</span><span class="o">:</span> <span class="s2">&quot;$&quot;</span><span class="p">,</span>
-      <span class="nx">bathroomCount</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
-      <span class="nx">bedroomCount</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
-      <span class="nx">_id</span><span class="o">:</span> <span class="s2">&quot;5233838bdb97421b95ab96b6&quot;</span><span class="p">,</span>
-      <span class="nx">heading</span><span class="o">:</span> <span class="s2">&quot;Quiet and safe rooms with wifi !!!&quot;</span>
+      <span class="p">{</span>
+        <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;http://www.bedycasa.com/media/cache/room_gallery_bedycasa/uploads/r/19413/511b6c56a1b66.jpg&quot;</span><span class="p">,</span>
+        <span class="nx">caption</span><span class="o">:</span> <span class="s2">&quot;&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;http://www.bedycasa.com/media/cache/room_gallery_bedycasa/uploads/r/19413/511bb0bc792c5.jpg&quot;</span><span class="p">,</span>
+        <span class="nx">caption</span><span class="o">:</span> <span class="s2">&quot;&quot;</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="s2">&quot;http://www.bedycasa.com/apartment-flat/arcachon-19413?utm_source=Outpost&amp;utm_medium=XML&amp;utm_campaign=bca19413&quot;</span><span class="p">,</span>
+    <span class="nx">nid</span><span class="o">:</span> <span class="s2">&quot;19413&quot;</span><span class="p">,</span>
+    <span class="nx">address</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">city</span><span class="o">:</span> <span class="s2">&quot;Arcachon&quot;</span><span class="p">,</span>
+      <span class="nx">country</span><span class="o">:</span> <span class="s2">&quot;France&quot;</span><span class="p">,</span>
+      <span class="nx">zipcode</span><span class="o">:</span> <span class="s2">&quot;33120&quot;</span><span class="p">,</span>
+      <span class="nx">suburb</span><span class="o">:</span> <span class="s2">&quot;Ville d&#39;Hiver&quot;</span><span class="p">,</span>
+      <span class="nx">state</span><span class="o">:</span> <span class="s2">&quot;Aquitaine&quot;</span><span class="p">,</span>
+      <span class="nx">streetName</span><span class="o">:</span> <span class="s2">&quot;AllÃ©e du Docteur Fernand Lalesque&quot;</span>
     <span class="p">},</span>
-    <span class="p">[...]</span>
-  <span class="p">],</span>
-  <span class="nx">_links</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">self</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">href</span><span class="o">:</span> <span class="s2">&quot;api.outpost.travel/placeRentals/&quot;</span><span class="p">,</span>
-      <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;placeRentals&quot;</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">preferredPricePer</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nx">instantBookable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">checkIn</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="nx">minimumStayNight</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nx">houseRules</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="nx">responseTime</span><span class="o">:</span> <span class="s2">&quot;24h&quot;</span><span class="p">,</span>
+      <span class="nx">cancellationRule</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="nx">checkOut</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="nx">size</span><span class="o">:</span> <span class="s2">&quot;20 mÂ²&quot;</span>
     <span class="p">},</span>
-    <span class="nx">last</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">href</span><span class="o">:</span> <span class="s2">&quot;api.outpost.travel/placeRentals/?page=23275&quot;</span><span class="p">,</span>
-      <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;last page&quot;</span>
-    <span class="p">},</span>
-    <span class="nx">parent</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">href</span><span class="o">:</span> <span class="s2">&quot;api.outpost.travel&quot;</span><span class="p">,</span>
-      <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;home&quot;</span>
-    <span class="p">},</span>
-    <span class="nx">next</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">href</span><span class="o">:</span> <span class="s2">&quot;api.outpost.travel/placeRentals/?page=2&quot;</span><span class="p">,</span>
-      <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;next page&quot;</span>
+    <span class="nx">bathroomCount</span><span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="nx">bedroomCount</span><span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="nx">heading</span><span class="o">:</span> <span class="s2">&quot;Apartment/Flat in Arcachon, at Marie-Pierre&#39;s place&quot;</span><span class="p">,</span>
+    <span class="nx">typeAlias</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">roomType</span><span class="o">:</span> <span class="s2">&quot;Lodging&quot;</span><span class="p">,</span>
+      <span class="nx">propType</span><span class="o">:</span> <span class="s2">&quot;Apartment/Flat&quot;</span>
     <span class="p">}</span>
-  <span class="p">}</span>
+  <span class="p">}]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="get-collection-id">
-<h1>GET <em>/[collection]/[id]/</em><a class="headerlink" href="#get-collection-id" title="Permalink to this headline">¶</a></h1>
-<p>The <cite>/[collection]/[id]/</cite> GET request returns a single item identical to those found inside <cite>_items</cite> from a regular request with no id. Currently the supported id&#8217;s are made up of the first three characters of a provider and then a numerical or hexadecimal sequence which is unique to the provider. In the future the <cite>[id]</cite> feature may be replaced by a more robust system such as <cite>/[collection]/[provider]/[id]</cite> along with the current system.</p>
+<div class="section" id="get-collection-city">
+<h1>GET <em>/[collection]/[city]/</em><a class="headerlink" href="#get-collection-city" title="Permalink to this headline">¶</a></h1>
+<p>See above.</p>
+</div>
+<div class="section" id="get-collection-city-id">
+<h1>GET <em>/[collection]/[city][id]/</em><a class="headerlink" href="#get-collection-city-id" title="Permalink to this headline">¶</a></h1>
+<p>The <cite>/[collection]/[city]/[id]/</cite> GET request returns a single item identical to those found inside <cite>items</cite> from a regular request with no id. Currently the supported id&#8217;s are made up of the first three characters of a provider and then a numerical or hexadecimal sequence which is unique to the provider. In the future the <cite>[id]</cite> feature may be replaced by a more robust system such as <cite>/[collection]/[provider]/[id]</cite> along with the current system. <cite>[city]</cite> is not technicaly needed but it will speed up the requests.</p>
 <div class="highlight-console"><div class="highlight"><pre><span class="go">Request:</span>
-<span class="gp">$</span> curl -i http://api.outpost.travel/placeRentals/air130852/
+<span class="gp">$</span> curl -i http://api.outpost.travel/places/spain/air130852/
 </pre></div>
 </div>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Response</span><span class="o">:</span>
@@ -339,7 +289,7 @@
 <hr class="docutils" />
 <div class="section" id="get-count">
 <h1>GET <em>/count/</em><a class="headerlink" href="#get-count" title="Permalink to this headline">¶</a></h1>
-<p>A <cite>/count/</cite> request will return the sum of all unique items for each provider in the <cite>placeRentals</cite> category. While the request it self is done quite quickly it can take a while to return the data.</p>
+<p>A <cite>/count/</cite> request will return the sum of all unique items for each provider in the <cite>places</cite> and <cite>experiences</cite> categories. While the request it self is done quite quickly it can take a while to return the data.</p>
 <div class="highlight-console"><div class="highlight"><pre><span class="go">Request:</span>
 <span class="gp">$</span> curl -i http://api.outpost.travel/count/
 </pre></div>
@@ -356,24 +306,7 @@
   <span class="nx">holidayvelvet</span><span class="o">:</span> <span class="mi">4681</span><span class="p">,</span>
   <span class="nx">roomorama</span><span class="o">:</span> <span class="mi">60557</span><span class="p">,</span>
   <span class="nx">interhome</span><span class="o">:</span> <span class="mi">36588</span><span class="p">,</span>
-<span class="p">},</span>
-<span class="p">{</span>
-  <span class="nx">unique_cities</span><span class="o">:</span> <span class="mi">53548</span><span class="p">,</span>
-  <span class="nx">sum</span><span class="o">:</span> <span class="mi">582421</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="get-count-provider">
-<h1>GET <em>/count/[provider]/</em><a class="headerlink" href="#get-count-provider" title="Permalink to this headline">¶</a></h1>
-<p>With the <cite>/[provider]/</cite> option appended the response will now only display a single provider.</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="go">Request:</span>
-<span class="gp">$</span> curl -i http://api.outpost.travel/count/flipkey/
-</pre></div>
-</div>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Response</span><span class="o">:</span>
-<span class="p">{</span>
-  <span class="nx">flipkey</span><span class="o">:</span> <span class="mi">115561</span><span class="p">,</span>
+  <span class="nx">total</span><span class="o">:</span> <span class="mi">582421</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -390,7 +323,7 @@
   </a>
 </p>
 <p>
-<iframe src="http://ghbtns.com/github-btn.html?user=outposttravel&repo=outpostpublicapi&type=watch&count=true&size=large"
+<iframe src="http://ghbtns.com/github-btn.html?user=outposttravel&repo=outpost-public-api&type=watch&count=true&size=large"
   allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
 </p>
 
@@ -401,14 +334,14 @@
   <ul>
 <li><a class="reference internal" href="#">GET <em>/</em></a></li>
 <li><a class="reference internal" href="#get-collection">GET <em>/[collection]/</em></a></li>
-<li><a class="reference internal" href="#get-collection-id">GET <em>/[collection]/[id]/</em></a></li>
+<li><a class="reference internal" href="#get-collection-city">GET <em>/[collection]/[city]/</em></a></li>
+<li><a class="reference internal" href="#get-collection-city-id">GET <em>/[collection]/[city][id]/</em></a></li>
 <li><a class="reference internal" href="#get-count">GET <em>/count/</em></a></li>
-<li><a class="reference internal" href="#get-count-provider">GET <em>/count/[provider]/</em></a></li>
 </ul>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Outpost.Travel&#8217;s Public API</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">OutpostTravel&#8217;s Public API</a></li>
   </ul></li>
 </ul>
 <div id="searchbox" style="display: none">
@@ -429,7 +362,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; Copyright 2013, Trevor Starick.
+      &copy; Copyright 2014, Outpost Travel Inc.
     </div>
   </body>
 </html>
